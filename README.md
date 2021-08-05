@@ -4,26 +4,12 @@
 
 ## Spring Security框架介绍
 Spring Security的核心是一组过滤器链，用户请求需要通过这些过滤器才能访问网络资源。其认证流程如下
-
-```flow
-st=>start: 用户请求
-op1=>operation: 进入对应的过滤器
-con1=>condition: 是否进行认证
-op2=>operation: 提取AuthenticationToken
-op3=>operation: AuthenticationManager
-op4=>operation: AuthenticationProvider
-con2=>condition: 是否认证成功
-op5=>operation: AuthenticationFailureHandler
-op6=>operation: AuthenticationSuccessHandler
-e=>end: 进入后续服务
-
-st->op1->con1
-con1(yes)->op2->op3->op4->con2
-con2(yes)->op6->e
-con2(no)->op5->e
-con1(no)->e
 ```
-
+用户请求——>过滤器（判断是否需要认证）——>进入后续服务  
+需要认证——>提取AuthenticationToken——>AuthenticationManager——>AuthenticationProvider（判断是否认证成功）  
+认证成功——>AuthenticationSuccessHandler  
+认证失败——>AuthenticationFailureHandler
+```
 
 AuthenticationToken: 包含认证所需的信息（如用户名、密码）。所有提交给AuthenticationManager的认证请求需要被封装成一个Token的实现。  
 AuthenticationManager: 用户认证的管理类，所有的认证请求都会通过`authenticate()`方法来实现。而具体校验动作会由AuthenticationManager将请求转发给具体的实现类AuthenticationProvider来完成。  
